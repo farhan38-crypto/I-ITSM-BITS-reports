@@ -1,0 +1,88 @@
+/* ── Live wallpapers (themes/live.ts, components/LiveBackdrop.tsx, components/ThemeIntro.tsx) ──
+   The layout and components stay as they are; these themes only restyle the glass, accents
+   and buttons to match their wallpaper, and add the entrance animations. */
+
+/* backdrop layers */
+.live-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+.live-video { opacity: 0; transition: opacity .9s var(--ease-out); }
+.live-video[data-on] { opacity: 1; }
+.live-layer { position: absolute; inset: 0; pointer-events: none; }
+.live-vignette { background: radial-gradient(130% 100% at 50% 30%, transparent 35%, rgb(0 0 0 / .7) 100%); transition: opacity .8s; }
+.arcade-canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+.arcade-shade { background: linear-gradient(90deg, rgb(7 2 26 / .62) 0%, rgb(7 2 26 / .25) 50%, transparent 72%); }
+.arcade-scan { background: repeating-linear-gradient(180deg, rgb(0 0 0 / .22) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
+
+/* glass over moving pictures: a touch more frost and a coloured rim */
+:root[data-family="live"] .glass { -webkit-backdrop-filter: blur(var(--blur)) saturate(1.8) brightness(.92); backdrop-filter: blur(var(--blur)) saturate(1.8) brightness(.92);
+  box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, var(--a) 22%, transparent), inset 0 0 0 1px rgb(255 255 255 / .02); }
+:root[data-family="live"][data-solid="true"] .glass { background: var(--glass-solid); }
+:root[data-family="live"] .btn { border-color: color-mix(in srgb, var(--a) 26%, var(--rim)); }
+:root[data-family="live"] .btn:hover { border-color: color-mix(in srgb, var(--a) 60%, var(--rim)); box-shadow: 0 0 22px -8px var(--a); }
+/* accent buttons keep the two-tone gradient (base.css makes non-glass families flat) */
+:root[data-family="live"] .btn-primary, html:root[data-family="live"] .tab-cta { background: linear-gradient(120deg, var(--a), var(--b)); }
+:root[data-family="live"] .btn-primary:hover { background: linear-gradient(120deg, var(--a), var(--b)); filter: brightness(1.1); }
+:root[data-family="live"] .rail-track i { background: linear-gradient(90deg, var(--a), var(--b)); }
+:root[data-family="live"] ::selection { background: color-mix(in srgb, var(--a) 45%, transparent); }
+
+/* GTA: hot neon glow */
+:root[data-theme="gta"] .btn-primary { box-shadow: 0 10px 30px -10px #FF5FA8, 0 0 0 1px rgb(255 255 255 / .12) inset; }
+:root[data-theme="gta"] h1 { text-shadow: 0 0 28px rgb(255 95 168 / .35); }
+
+/* Space: warm light on the top rim, like the disc's glow */
+:root[data-theme="space"] .glass { box-shadow: var(--shadow), inset 0 1px 0 rgb(255 200 140 / .28), 0 -12px 40px -30px rgb(255 184 102 / .5); }
+:root[data-theme="space"] .btn-primary { box-shadow: 0 10px 34px -12px rgb(255 160 80 / .8); }
+
+/* Arcade: chunky, pixel-shadowed, neon headings */
+:root[data-theme="arcade"] h1, :root[data-theme="arcade"] h2 { text-transform: uppercase; letter-spacing: .04em;
+  text-shadow: 2px 2px 0 #FF2BD6, 0 0 18px rgb(0 229 255 / .45); }
+:root[data-theme="arcade"] .btn-primary { box-shadow: 3px 3px 0 #FF2BD6; border-radius: 10px; }
+:root[data-theme="arcade"] .btn-primary:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #FF2BD6; }
+:root[data-theme="arcade"] .btn { border-radius: 10px; }
+:root[data-theme="arcade"] .glass { box-shadow: var(--shadow), 4px 4px 0 -1px rgb(255 43 214 / .25), inset 0 1px 0 rgb(0 229 255 / .3); }
+
+/* ── panels materialise after an intro ── */
+@keyframes live-panel-in { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+@keyframes live-panel-px { 0% { opacity: 0; clip-path: inset(0 0 100% 0); } 100% { opacity: 1; clip-path: inset(0 0 0 0); } }
+:root[data-intro="gta"] .glass, :root[data-intro="space"] .glass { animation: live-panel-in .7s var(--ease-out) both; }
+:root[data-intro="gta"] .glass { animation-delay: .55s; }
+:root[data-intro="space"] .glass { animation-delay: .9s; animation-duration: .9s; }
+:root[data-intro="arcade"] .glass { animation: live-panel-px .5s steps(6) 1.05s both; }
+.ap, .ap .glass { animation: none !important; }   /* the Appearance panel stays put */
+
+/* ── intro overlays ── */
+.intro { position: fixed; inset: 0; z-index: 400; pointer-events: none; overflow: hidden; }
+
+/* GTA: three skewed neon bands sweep across, the name lands, they sweep off */
+.gta-band { position: absolute; top: -20%; bottom: -20%; left: 0; width: 70vw; transform: translateX(-140%) skewX(-18deg);
+  animation: gta-sweep 1.25s cubic-bezier(.7, 0, .25, 1) both; box-shadow: 0 0 60px rgb(0 0 0 / .4); }
+.gta-band:nth-child(2) { width: 60vw; } .gta-band:nth-child(3) { width: 80vw; }
+@keyframes gta-sweep { 0% { transform: translateX(-140%) skewX(-18deg); } 42%, 58% { transform: translateX(30%) skewX(-18deg); } 100% { transform: translateX(240%) skewX(-18deg); } }
+.gta-word { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; animation: gta-word 1.25s ease both; }
+.gta-word b { font: 900 italic clamp(64px, 14vw, 180px)/0.9 var(--font-display); letter-spacing: -.04em; color: #fff;
+  text-shadow: 4px 4px 0 #8F6BFF, 0 0 40px rgb(255 95 168 / .9); }
+.gta-word small { font: 700 13px/1 var(--font-ui); letter-spacing: .4em; text-transform: uppercase; color: #fff; margin-top: 10px; opacity: .85; }
+@keyframes gta-word { 0%, 25% { opacity: 0; transform: scale(1.6) rotate(-4deg); } 40% { opacity: 1; transform: scale(1) rotate(-4deg); } 60% { opacity: 1; transform: scale(1.04) rotate(-4deg); } 72%, 100% { opacity: 0; transform: scale(.9) rotate(-4deg); } }
+
+/* Space: warp streaks, then a gold flash opening from the centre */
+.space-warp { position: absolute; inset: 0; width: 100%; height: 100%; animation: space-out 1.5s ease both; }
+@keyframes space-out { 0% { opacity: 0; } 10%, 70% { opacity: 1; } 100% { opacity: 0; } }
+.space-flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #fff 0, #FFE2B8 8%, rgb(255 160 80 / .6) 22%, transparent 55%);
+  animation: space-flash 1.5s ease both; }
+@keyframes space-flash { 0%, 62% { opacity: 0; transform: scale(.2); } 74% { opacity: 1; transform: scale(1.6); } 100% { opacity: 0; transform: scale(3); } }
+
+/* Arcade: CRT switch-on, PLAYER 1 READY, pixel dissolve */
+.arc-crt { position: absolute; inset: 0; z-index: 2; background: #07021A; display: grid; place-items: center; animation: arc-crt-out .01s linear .75s both; }
+.arc-crt i { width: 100%; height: 2px; background: #E9FDFF; box-shadow: 0 0 24px #00E5FF, 0 0 60px #00E5FF; animation: arc-line .7s cubic-bezier(.6, 0, .3, 1) both; }
+@keyframes arc-line { 0% { transform: scaleX(0); } 40% { transform: scaleX(1); height: 2px; } 75% { height: 100vh; opacity: 1; background: #E9FDFF; } 100% { height: 100vh; background: #07021A; box-shadow: none; } }
+@keyframes arc-crt-out { to { opacity: 0; } }
+.arc-grid { position: absolute; inset: 0; display: grid; }
+.arc-grid i { background: #07021A; animation: arc-px .08s steps(1) both; }
+@keyframes arc-px { from { opacity: 1; } to { opacity: 0; } }
+.arc-ready { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; gap: 12px; text-align: center; font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  animation: arc-ready 1.6s steps(1) both; }
+.arc-ready b { font-size: clamp(28px, 5vw, 56px); letter-spacing: .12em; color: #00E5FF; text-shadow: 3px 3px 0 #FF2BD6; }
+.arc-ready span { font-size: clamp(16px, 2.4vw, 26px); letter-spacing: .5em; color: #FFE600; animation: arc-blink .24s steps(1) .7s 4; }
+@keyframes arc-ready { 0%, 40% { opacity: 0; } 41%, 85% { opacity: 1; } 86%, 100% { opacity: 0; } }
+@keyframes arc-blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) { .intro { display: none; } }

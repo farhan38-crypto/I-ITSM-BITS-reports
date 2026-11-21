@@ -1,0 +1,41 @@
+/* Reports page (features/reports/ReportsPage.tsx) */
+.rp { display: grid; gap: 16px; }
+.rp h2 { font-size: 16px; font-weight: 650; display: flex; align-items: center; gap: 8px; margin: 0 0 12px; }
+.rp-export { display: flex; gap: 8px; align-items: center; }
+.rp-export select { min-width: 170px; }
+.rp-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.rp-kpi { padding: 14px 16px; display: grid; gap: 2px; }
+.rp-kpi b { font: 650 clamp(20px, 2vw, 28px)/1.1 var(--font-display); white-space: nowrap; }
+.rp-kpi[data-tone] b { color: var(--k); }
+.rp-kpi span { font-size: 12.5px; color: var(--ink-2); }
+.rp-kpi small { font-size: 11.5px; color: var(--ink-3); }
+.rp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rp-span2 { grid-column: span 2; }
+.rp-card { min-width: 0; }
+.rp-card > .pad + .table-wrap { padding: 0 8px 8px; }
+.rp-mini { display: flex; flex-wrap: wrap; gap: 10px 26px; color: var(--ink-2); font-size: 13.5px; }
+.rp-mini b { color: var(--ink); font: 650 20px/1 var(--font-display); margin-right: 6px; }
+.rp-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.rp-bars li { display: grid; grid-template-columns: minmax(80px, 38%) 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
+.rp-bar-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+.rp-bar { height: 8px; border-radius: 99px; background: var(--glass-hi); overflow: hidden; }
+.rp-bar i { display: block; height: 100%; width: var(--w); background: var(--k); border-radius: inherit; transition: width .6s var(--ease-out); }
+.rp-timeline svg { width: 100%; height: 180px; display: block; color: var(--ink); }
+.rp-legend { display: flex; gap: 16px; font-size: 12px; color: var(--ink-2); margin-bottom: 6px; }
+.rp-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.rp-legend i { width: 9px; height: 9px; border-radius: 3px; background: var(--k); }
+.rp-axis { display: flex; font-size: 10.5px; color: var(--ink-3); margin-top: 4px; }
+.rp-axis span { white-space: nowrap; overflow: visible; }
+.rp-map { overflow: hidden; padding: 0; }
+.rp-map-head p { margin: -6px 0 0; font-size: 13px; color: var(--ink-2); }
+.rp-mapview { min-height: 420px; border-radius: 0; }
+.rp-table h2 { margin: 0; }
+@media (max-width: 900px) { .rp-grid { grid-template-columns: 1fr; } .rp-span2 { grid-column: auto; } }
+.rp-mail { display: grid; gap: 14px; }
+.rp-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rp-chips input { flex: 1 1 200px; min-width: 160px; }
+.rp-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 6px 4px 10px; border-radius: 999px; font-size: 12.5px;
+  background: color-mix(in srgb, var(--a) 18%, transparent); border: 1px solid color-mix(in srgb, var(--a) 40%, transparent); }
+.rp-chip button { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.rp-chip button:hover { background: var(--glass-hi); }
+.rp-quick { display: flex; gap: 6px; margin-top: 6px; }
